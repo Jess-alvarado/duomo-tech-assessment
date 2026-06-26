@@ -46,8 +46,8 @@ En otra terminal:
 
 ```bash
 cd frontend
-ng serve
 npm install
+ng serve
 ```
 
 La aplicación queda disponible en `http://localhost:4200`.
