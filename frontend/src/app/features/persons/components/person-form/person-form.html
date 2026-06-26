@@ -1,0 +1,82 @@
+<div class="form-container">
+  <h3>Registrar Nueva Persona</h3>
+
+  @if (errorMessage) {
+    <p class="message message-error">{{ errorMessage }}</p>
+  }
+
+  @if (successMessage) {
+    <p class="message message-success">{{ successMessage }}</p>
+  }
+
+  <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-field">
+      <label for="firstName">Nombre:</label>
+      <input id="firstName" type="text" formControlName="firstName" placeholder="Juan">
+      @if (hasError('firstName', 'required')) {
+        <span class="field-error">El nombre es obligatorio.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="lastName">Apellido:</label>
+      <input id="lastName" type="text" formControlName="lastName" placeholder="Pérez">
+      @if (hasError('lastName', 'required')) {
+        <span class="field-error">El apellido es obligatorio.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="age">Edad:</label>
+      <input id="age" type="number" formControlName="age" placeholder="25">
+      @if (hasError('age', 'required')) {
+        <span class="field-error">La edad es obligatoria.</span>
+      }
+      @if (hasError('age', 'minAge')) {
+        <span class="field-error">Debes ser mayor o igual a 18 años.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" placeholder="juan.perez@email.com">
+      @if (hasError('email', 'required')) {
+        <span class="field-error">El email es obligatorio.</span>
+      }
+      @if (hasError('email', 'email')) {
+        <span class="field-error">Ingresa un email válido.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="regionId">Región:</label>
+      <select id="regionId" formControlName="regionId" (change)="onRegionChange($event)">
+        <option value="">-- Selecciona una Región --</option>
+        @for (region of regions; track region.id) {
+          <option [value]="region.id">{{ region.name }}</option>
+        }
+      </select>
+      @if (hasError('regionId', 'required')) {
+        <span class="field-error">Debes seleccionar una región.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="communeId">Comuna:</label>
+      <select id="communeId" formControlName="communeId">
+        <option value="">-- Selecciona una Comuna --</option>
+        @for (commune of communes; track commune.id) {
+          <option [value]="commune.id">{{ commune.name }}</option>
+        }
+      </select>
+      @if (hasError('communeId', 'required')) {
+        <span class="field-error">Debes seleccionar una comuna.</span>
+      }
+    </div>
+
+    <button type="submit" class="btn-submit" [disabled]="submitting">
+      {{ submitting ? 'Guardando...' : 'Guardar Persona' }}
+    </button>
+  </form>
+</div>

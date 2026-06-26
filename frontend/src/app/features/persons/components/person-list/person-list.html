@@ -1,0 +1,86 @@
+<div class="list-container">
+  <h2>Lista de Personas Registradas</h2>
+
+  @if (errorMessage) {
+    <p class="message message-error">{{ errorMessage }}</p>
+  }
+
+  @if (successMessage) {
+    <p class="message message-success">{{ successMessage }}</p>
+  }
+
+  @if (state.loading()) {
+    <p class="loading-text">Cargando personas...</p>
+  } @else {
+    <table class="person-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Edad</th>
+          <th>Región</th>
+          <th>Comuna</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (person of state.persons(); track person.id) {
+          <tr>
+            <td>{{ person.firstName }} {{ person.lastName }}</td>
+            <td>{{ person.email }}</td>
+            <td>{{ person.age }} años</td>
+            <td>{{ person.region?.name }}</td>
+            <td>{{ person.commune?.name }}</td>
+            <td class="actions-cell">
+              <button
+                type="button"
+                class="btn-detail"
+                [disabled]="loadingDetail()"
+                (click)="onViewDetail(person.id)">
+                Ver detalle
+              </button>
+              <button
+                type="button"
+                class="btn-delete"
+                [disabled]="deletingId === person.id"
+                (click)="onDeletePerson(person.id)">
+                {{ deletingId === person.id ? 'Eliminando...' : 'Eliminar' }}
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty-row">No hay personas registradas todavía.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+@if (selectedPerson()) {
+  <div class="modal-overlay" (click)="closeDetail()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Detalle de la persona</h3>
+
+      <dl class="detail-list">
+        <dt>Nombre completo</dt>
+        <dd>{{ selectedPerson()!.firstName }} {{ selectedPerson()!.lastName }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ selectedPerson()!.email }}</dd>
+
+        <dt>Edad</dt>
+        <dd>{{ selectedPerson()!.age }} años</dd>
+
+        <dt>Región</dt>
+        <dd>{{ selectedPerson()!.region?.name }}</dd>
+
+        <dt>Comuna</dt>
+        <dd>{{ selectedPerson()!.commune?.name }}</dd>
+      </dl>
+
+      <button type="button" class="btn-close" (click)="closeDetail()">Cerrar</button>
+    </div>
+  </div>
+}
