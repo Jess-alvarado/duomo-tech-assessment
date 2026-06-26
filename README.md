@@ -12,6 +12,21 @@ Aplicación full-stack para administrar personas (crear, listar, eliminar), con 
 - Node.js 24.x
 - npm (incluido con Node)
 
+## Ejecución con Docker
+Asegurarse de tener Docker instalado.
+Desde la raíz del proyecto:
+
+```bash
+docker compose up --build
+```
+
+Esto levanta:
+
+Backend (Spring Boot) en `http://localhost:8090`
+Frontend (Angular) en `http://localhost:4200`
+
+No requiere configuración adicional ni variables de entorno.
+
 ## Ejecución
 
 ### 1. Backend
@@ -31,8 +46,8 @@ En otra terminal:
 
 ```bash
 cd frontend
-npm install
 ng serve
+npm install
 ```
 
 La aplicación queda disponible en `http://localhost:4200`.
